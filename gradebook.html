@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجل الدرجات | منصة الرياضيات</title>
+    <!-- تضمين Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- تضمين مكتبة الأيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- إعدادات خطوط عربية -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; }
+        /* تخصيص شريط التمرير للجدول */
+        .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen overflow-hidden flex">
+
+    <!-- القائمة الجانبية (Sidebar) -->
+    <aside class="w-64 bg-indigo-900 text-white flex flex-col hidden md:flex transition-all duration-300">
+        <!-- شعار المنصة -->
+        <div class="h-20 flex items-center justify-center border-b border-indigo-800">
+            <i class="fa-solid fa-calculator text-2xl me-3 text-indigo-300"></i>
+            <h1 class="text-xl font-bold">رياضيات <span class="text-indigo-300 text-sm font-normal">الصفوف الأولية</span></h1>
+        </div>
+
+        <!-- روابط القائمة المحدثة (زر "سجل الدرجات" هو النشط هنا) -->
+        <nav class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-2 px-3">
+                <li>
+                    <a href="index.html" class="flex items-center px-4 py-3 text-indigo-100 hover:bg-indigo-800 hover:text-white rounded-lg transition-colors">
+                        <i class="fa-solid fa-house w-6 text-center"></i>
+                        <span class="ms-3 font-medium">الرئيسية</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="import.html" class="flex items-center px-4 py-3 text-indigo-100 hover:bg-indigo-800 hover:text-white rounded-lg transition-colors">
+                        <i class="fa-solid fa-users-class w-6 text-center"></i>
+                        <span class="ms-3 font-medium">استيراد الطلاب</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="curriculum.html" class="flex items-center px-4 py-3 text-indigo-100 hover:bg-indigo-800 hover:text-white rounded-lg transition-colors">
+                        <i class="fa-solid fa-book-open w-6 text-center"></i>
+                        <span class="ms-3 font-medium">خريطة المنهج</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="worksheet-generator.html" class="flex items-center px-4 py-3 text-indigo-100 hover:bg-indigo-800 hover:text-white rounded-lg transition-colors">
+                        <i class="fa-solid fa-file-signature w-6 text-center"></i>
+                        <span class="ms-3 font-medium">أوراق العمل والاختبارات</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- هذا هو الزر النشط في هذه الصفحة -->
+                    <a href="gradebook.html" class="flex items-center px-4 py-3 bg-indigo-800 text-white rounded-lg transition-colors">
+                        <i class="fa-solid fa-star w-6 text-center"></i>
+                        <span class="ms-3 font-medium">سجل الدرجات</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- معلومات الدعم / تسجيل الخروج -->
+        <div class="p-4 border-t border-indigo-800">
+            <a href="#" class="flex items-center px-4 py-2 text-indigo-200 hover:text-white transition-colors">
+                <i class="fa-solid fa-right-from-bracket w-6 text-center"></i>
+                <span class="ms-3 text-sm">تسجيل الخروج</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- منطقة المحتوى الرئيسية -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        
+        <!-- الشريط العلوي (Header) -->
+        <header class="h-20 bg-white shadow-sm flex items-center justify-between px-6 z-10">
+            <button class="md:hidden text-slate-500 hover:text-indigo-600 focus:outline-none">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+
+            <div class="hidden md:block">
+                <span class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-sm font-semibold border border-indigo-100">
+                    الفصل الدراسي الأول 1448 هـ
+                </span>
+            </div>
+
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <button class="relative text-slate-400 hover:text-indigo-600 transition-colors">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">3</span>
+                </button>
+                <div class="h-8 w-px bg-slate-200 mx-2"></div>
+                <div class="flex items-center cursor-pointer">
+                    <img src="https://ui-avatars.com/api/?name=معلم+رياضيات&background=4f46e5&color=fff" alt="صورة المعلم" class="w-10 h-10 rounded-full border-2 border-indigo-100">
+                    <div class="ms-3 hidden sm:block">
+                        <p class="text-sm font-bold text-slate-700">معلم رياضيات</p>
+                        <p class="text-xs text-slate-500">لوحة الإدارة</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-down ms-3 text-xs text-slate-400 hidden sm:block"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- المحتوى الداخلي (سجل الدرجات) -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-50 p-6 md:p-8">
+            
+            <div class="max-w-7xl mx-auto">
+                <!-- الترويسة وأدوات التحكم -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-indigo-900 mb-2">سجل الدرجات والمتابعة</h1>
+                        <p class="text-slate-500">الفصل الدراسي الأول 1448 هـ - رصد درجات الفترات والمشاركة</p>
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <button onclick="window.print()" class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg font-medium transition shadow-sm flex items-center">
+                            <i class="fa-solid fa-print ms-2"></i> طباعة الكشف
+                        </button>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium transition shadow-sm flex items-center">
+                            <i class="fa-solid fa-file-excel ms-2"></i> تصدير لنظام نور
+                        </button>
+                    </div>
+                </div>
+
+                <!-- شريط الفلاتر -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                    <div class="flex gap-4 w-full sm:w-auto">
+                        <div class="w-full sm:w-64">
+                            <label class="block text-xs font-bold text-slate-500 mb-1">اختر الفصل:</label>
+                            <select id="class-filter" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-slate-50">
+                                <option value="1A">الصف الأول - أ</option>
+                                <option value="2B">الصف الثاني - ب</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full sm:w-72 relative">
+                        <i class="fa-solid fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="search-input" placeholder="ابحث عن طالب..." class="w-full border border-slate-300 rounded-lg p-2 pr-10 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" onkeyup="filterTable()">
+                    </div>
+                </div>
+
+                <!-- حاوية الجدول -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-right border-collapse min-w-[800px]">
+                            <thead>
+                                <tr class="bg-indigo-900 text-white text-sm">
+                                    <th class="p-4 font-semibold w-12 text-center">#</th>
+                                    <th class="p-4 font-semibold">اسم الطالب</th>
+                                    <th class="p-4 font-semibold text-center border-r border-indigo-700/50">المشاركة (20)</th>
+                                    <th class="p-4 font-semibold text-center border-r border-indigo-700/50">أوراق العمل (20)</th>
+                                    <th class="p-4 font-semibold text-center border-r border-indigo-700/50">اختبار منتصف (20)</th>
+                                    <th class="p-4 font-semibold text-center border-r border-indigo-700/50">اختبار نهائي (40)</th>
+                                    <th class="p-4 font-semibold text-center bg-indigo-950 border-r border-indigo-700/50">المجموع (100)</th>
+                                    <th class="p-4 font-semibold text-center">التقدير</th>
+                                </tr>
+                            </thead>
+                            <tbody id="grades-tbody" class="text-sm">
+                                <!-- سيتم حقن الصفوف هنا عبر الجافاسكريبت -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- ملخص الإحصائيات -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6" id="stats-container">
+                    <!-- تُحسب تلقائياً -->
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- سكربت العمليات الحسابية وعرض البيانات -->
+    <script>
+        // بيانات وهمية تحاكي ما سيأتي من Firebase
+        const studentsData = [
+            { id: 1, name: "أحمد محمد عبدالله", participation: 18, worksheets: 20, midterm: 19, final: 38 },
+            { id: 2, name: "سعد خالد المطيري", participation: 15, worksheets: 16, midterm: 14, final: 30 },
+            { id: 3, name: "عبدالرحمن فهد", participation: 20, worksheets: 20, midterm: 20, final: 40 },
+            { id: 4, name: "فيصل ناصر", participation: 12, worksheets: 10, midterm: 11, final: 25 },
+            { id: 5, name: "بدر سعود", participation: 19, worksheets: 18, midterm: 17, final: 35 },
+            { id: 6, name: "وليد مسفر الزهراني", participation: 16, worksheets: 15, midterm: 18, final: 32 }
+        ];
+
+        // دالة تحديد التقدير واللون بناءً على المجموع
+        function getGradeInfo(total) {
+            if (total >= 90) return { text: 'ممتاز', class: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+            if (total >= 80) return { text: 'جيد جداً', class: 'bg-blue-100 text-blue-700 border-blue-200' };
+            if (total >= 70) return { text: 'جيد', class: 'bg-amber-100 text-amber-700 border-amber-200' };
+            if (total >= 60) return { text: 'مقبول', class: 'bg-orange-100 text-orange-700 border-orange-200' };
+            return { text: 'يحتاج تحسين', class: 'bg-red-100 text-red-700 border-red-200' };
+        }
+
+        // دالة عرض الجدول وحساب المجاميع
+        function renderTable(data) {
+            const tbody = document.getElementById('grades-tbody');
+            tbody.innerHTML = '';
+            
+            let stats = { excellent: 0, vgood: 0, good: 0, needsHelp: 0, totalAvg: 0 };
+
+            data.forEach((student, index) => {
+                // الحساب الآلي
+                const totalScore = student.participation + student.worksheets + student.midterm + student.final;
+                const gradeInfo = getGradeInfo(totalScore);
+                
+                // جمع الإحصائيات
+                stats.totalAvg += totalScore;
+                if(totalScore >= 90) stats.excellent++;
+                else if(totalScore >= 80) stats.vgood++;
+                else if(totalScore >= 70) stats.good++;
+                else stats.needsHelp++;
+
+                // بناء صف الجدول
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="p-4 text-center text-slate-400">${index + 1}</td>
+                    <td class="p-4 font-bold text-slate-700">${student.name}</td>
+                    <td class="p-4 text-center border-r border-slate-100">
+                        <input type="number" value="${student.participation}" class="w-16 text-center border border-slate-200 rounded p-1 text-sm focus:border-indigo-500 outline-none" max="20" min="0">
+                    </td>
+                    <td class="p-4 text-center border-r border-slate-100">
+                        <input type="number" value="${student.worksheets}" class="w-16 text-center border border-slate-200 rounded p-1 text-sm focus:border-indigo-500 outline-none" max="20" min="0">
+                    </td>
+                    <td class="p-4 text-center border-r border-slate-100">
+                        <input type="number" value="${student.midterm}" class="w-16 text-center border border-slate-200 rounded p-1 text-sm focus:border-indigo-500 outline-none" max="20" min="0">
+                    </td>
+                    <td class="p-4 text-center border-r border-slate-100">
+                        <input type="number" value="${student.final}" class="w-16 text-center border border-slate-200 rounded p-1 text-sm focus:border-indigo-500 outline-none" max="40" min="0">
+                    </td>
+                    <td class="p-4 text-center border-r border-slate-100 bg-slate-50 font-black text-lg ${totalScore < 60 ? 'text-red-600' : 'text-indigo-900'}">
+                        ${totalScore}
+                    </td>
+                    <td class="p-4 text-center">
+                        <span class="px-3 py-1 text-xs font-bold rounded-full border ${gradeInfo.class}">
+                            ${gradeInfo.text}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // تحديث بطاقات الإحصائيات
+            const classAverage = data.length ? Math.round(stats.totalAvg / data.length) : 0;
+            document.getElementById('stats-container').innerHTML = `
+                <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
+                    <p class="text-sm text-slate-500 mb-1">متوسط الفصل</p>
+                    <p class="text-2xl font-black text-indigo-900">${classAverage}%</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100 text-center">
+                    <p class="text-sm text-emerald-600 mb-1">الطلاب المتميزين (ممتاز)</p>
+                    <p class="text-2xl font-black text-emerald-700">${stats.excellent}</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 text-center">
+                    <p class="text-sm text-blue-600 mb-1">المستوى الجيد (جيد جداً/جيد)</p>
+                    <p class="text-2xl font-black text-blue-700">${stats.vgood + stats.good}</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-100 text-center">
+                    <p class="text-sm text-red-600 mb-1">يحتاجون متابعة</p>
+                    <p class="text-2xl font-black text-red-700">${stats.needsHelp}</p>
+                </div>
+            `;
+        }
+
+        // فلترة الجدول حسب البحث
+        function filterTable() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filteredData = studentsData.filter(s => s.name.toLowerCase().includes(query));
+            renderTable(filteredData);
+        }
+
+        // تشغيل أولي
+        window.onload = () => renderTable(studentsData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استيراد الطلاب | منصة الرياضيات</title>
+    <!-- تضمين Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- تضمين مكتبة الأيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- إعدادات خطوط عربية -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- مكتبة SheetJS لقراءة ملفات Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body { font-family: 'Tajawal', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen overflow-hidden flex">
+
+    <!-- القائمة الجانبية (Sidebar) -->
+    <aside class="w-64 bg-indigo-900 text-white flex flex-col hidden md:flex transition-all duration-300">
+        <!-- شعار المنصة -->
+        <div class="h-20 flex items-center justify-center border-b border-indigo-800">
+            <i class="fa-solid fa-calculator text-2xl me-3 text-indigo-300"></i>
+            <h1 class="text-xl font-bold">رياضيات <span class="text-indigo-300 text-sm font-normal">الصفوف الأولية</span></h1>
+        </div>
+
+        <!-- روابط القائمة المحدثة (زر "استيراد الطلاب" هو النشط هنا) -->
+        <nav class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-2 px-3">
+                <li>
+                    <a href="index.html" class="flex items-center px-4 py-3 text-indigo-100 hover:bg-indigo-800 hover:text-white rounded-lg transition-colors">
+                        <i class="fa-solid fa-house w-6 text-center"></i>
+                        <span class="ms-3 font-medium">الرئيسية</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- هذا هو الزر النشط في هذه الصفحة -->
+                    <a href="import.html" class="flex items-center px-4 py-3 bg-indigo-800 text-white rounded-lg transition-colors">
+                        <i class="fa-solid fa-users-class w-6 text-center"></i>
+                        <span class="ms-3 font-medium">استيراد الطلاب</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="curriculum.html" class="flex items-center px-4 py-3 text-indigo-100 hover:bg-indigo-800 hover:text-white rounded-lg transition-colors">
+                        <i class="fa-solid fa-book-open w-6 text-center"></i>
+                        <span class="ms-3 font-medium">خريطة المنهج</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="worksheet-generator.html" class="flex items-center px-4 py-3 text-indigo-100 hover:bg-indigo-800 hover:text-white rounded-lg transition-colors">
+                        <i class="fa-solid fa-file-signature w-6 text-center"></i>
+                        <span class="ms-3 font-medium">أوراق العمل والاختبارات</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="gradebook.html" class="flex items-center px-4 py-3 text-indigo-100 hover:bg-indigo-800 hover:text-white rounded-lg transition-colors">
+                        <i class="fa-solid fa-star w-6 text-center"></i>
+                        <span class="ms-3 font-medium">سجل الدرجات</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- معلومات الدعم / تسجيل الخروج -->
+        <div class="p-4 border-t border-indigo-800">
+            <a href="#" class="flex items-center px-4 py-2 text-indigo-200 hover:text-white transition-colors">
+                <i class="fa-solid fa-right-from-bracket w-6 text-center"></i>
+                <span class="ms-3 text-sm">تسجيل الخروج</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- منطقة المحتوى الرئيسية -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        
+        <!-- الشريط العلوي (Header) -->
+        <header class="h-20 bg-white shadow-sm flex items-center justify-between px-6 z-10">
+            <button class="md:hidden text-slate-500 hover:text-indigo-600 focus:outline-none">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+
+            <div class="hidden md:block">
+                <span class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-sm font-semibold border border-indigo-100">
+                    الفصل الدراسي الأول 1448 هـ
+                </span>
+            </div>
+
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <button class="relative text-slate-400 hover:text-indigo-600 transition-colors">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">3</span>
+                </button>
+                <div class="h-8 w-px bg-slate-200 mx-2"></div>
+                <div class="flex items-center cursor-pointer">
+                    <img src="https://ui-avatars.com/api/?name=معلم+رياضيات&background=4f46e5&color=fff" alt="صورة المعلم" class="w-10 h-10 rounded-full border-2 border-indigo-100">
+                    <div class="ms-3 hidden sm:block">
+                        <p class="text-sm font-bold text-slate-700">معلم رياضيات</p>
+                        <p class="text-xs text-slate-500">لوحة الإدارة</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-down ms-3 text-xs text-slate-400 hidden sm:block"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- المحتوى الداخلي -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-50 p-6 flex justify-center items-start">
+            
+            <div class="w-full max-w-2xl bg-white p-8 rounded-xl shadow-sm border border-slate-200 mt-4">
+                <h2 class="text-2xl font-bold mb-2 text-indigo-900">استيراد أسماء الطلاب</h2>
+                <p class="text-slate-500 mb-6 text-sm">قم برفع ملف الإكسيل (.xlsx) لإضافة الطلاب مباشرة إلى قاعدة البيانات وإنشاء رموز QR الخاصة بهم.</p>
+                
+                <div class="mb-6">
+                    <label class="block text-slate-700 font-semibold mb-2">اختر ملف الإكسيل:</label>
+                    <input type="file" id="excelFile" accept=".xlsx, .xls" class="block w-full text-sm text-slate-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-md file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-indigo-50 file:text-indigo-700
+                    hover:file:bg-indigo-100 border border-slate-200 rounded-md">
+                </div>
+                
+                <button id="importBtn" class="bg-indigo-600 hover:bg-indigo-700 transition text-white font-bold py-3 px-4 rounded-md w-full shadow-sm">
+                    قراءة الملف ورفع البيانات إلى Firebase
+                </button>
+
+                <!-- لعرض حالة الرفع -->
+                <div id="status" class="mt-6 text-sm font-semibold text-center text-slate-600"></div>
+                
+                <!-- لمعاينة البيانات المرفوعة -->
+                <pre id="preview" class="mt-4 bg-slate-800 text-green-400 p-4 rounded-md text-left dir-ltr text-xs overflow-auto max-h-64 hidden"></pre>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- إعدادات Firebase وسكربت الاستيراد -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+        // ⚠️ ضع إعدادات مشروع Firebase الخاص بك هنا ⚠️
+        const firebaseConfig = {
+            apiKey: "API_KEY_HERE",
+            authDomain: "PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "PROJECT_ID",
+            storageBucket: "PROJECT_ID.appspot.com",
+            messagingSenderId: "SENDER_ID",
+            appId: "APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        document.getElementById('importBtn').addEventListener('click', () => {
+            const fileInput = document.getElementById('excelFile');
+            const statusDiv = document.getElementById('status');
+            const previewDiv = document.getElementById('preview');
+
+            if (fileInput.files.length === 0) {
+                alert('عذراً، الرجاء اختيار ملف إكسيل أولاً.');
+                return;
+            }
+
+            statusDiv.innerText = "جاري معالجة ملف الإكسيل...";
+            statusDiv.className = "mt-6 text-sm font-semibold text-center text-blue-600";
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = async function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    
+                    const json = XLSX.utils.sheet_to_json(worksheet);
+                    
+                    if(json.length === 0) {
+                        statusDiv.innerText = "الملف فارغ أو لم يتم العثور على بيانات.";
+                        return;
+                    }
+
+                    statusDiv.innerText = `تم العثور على ${json.length} طالب. جاري الرفع إلى Firebase...`;
+                    let successCount = 0;
+                    let uploadedDataPreview = [];
+
+                    for (let i = 0; i < json.length; i++) {
+                        const row = json[i];
+                        
+                        const name = row['الاسم'] || row['اسم الطالب'] || "";
+                        const nationalId = row['السجل المدني'] || row['رقم الهوية'] || "";
+                        const grade = parseInt(row['الصف']) || 1;
+                        const section = row['الفصل'] || "أ";
+                        
+                        if(!name) continue;
+
+                        let classLetter = section === 'أ' ? 'A' : section === 'ب' ? 'B' : section === 'ج' ? 'C' : section;
+                        let classId = `class_${grade}${classLetter}`;
+                        
+                        const qrHash = Math.random().toString(36).substring(2, 10);
+                        const studentId = `student_${nationalId || (Date.now() + i)}`;
+
+                        const studentData = {
+                            full_name: name,
+                            national_id: nationalId.toString(),
+                            class_id: classId,
+                            grade_level: grade,
+                            qr_code_hash: qrHash,
+                            total_points: 0,
+                            badges: []
+                        };
+
+                        await set(ref(db, 'students/' + studentId), studentData);
+                        uploadedDataPreview.push(studentData);
+                        successCount++;
+                    }
+
+                    statusDiv.innerText = `تم استيراد ${successCount} طالب بنجاح!`;
+                    statusDiv.className = "mt-6 text-sm font-bold text-center text-green-600";
+                    
+                    previewDiv.classList.remove('hidden');
+                    previewDiv.innerText = JSON.stringify(uploadedDataPreview, null, 2);
+
+                } catch (error) {
+                    console.error("خطأ في القراءة أو الرفع:", error);
+                    statusDiv.innerText = "حدث خطأ أثناء معالجة البيانات. تفقد الـ Console للمزيد من التفاصيل.";
+                    statusDiv.className = "mt-6 text-sm font-bold text-center text-red-600";
+                }
+            };
+
+            reader.readAsArrayBuffer(file);
+        });
+    </script>
+</body>
+</html>
